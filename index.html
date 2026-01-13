@@ -1,0 +1,88 @@
+<div id="game">
+  <h2 id="round-title">Round 1</h2>
+  <p id="club-reveal">Club: ???</p>
+
+  <input type="text" id="guess" placeholder="Guess the cricketer" autocomplete="off">
+  <button onclick="submitGuess()">Submit</button>
+
+  <p id="message"></p>
+</div>
+
+<style>
+#game {
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+input {
+  padding: 8px;
+  width: 80%;
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+</style>
+
+<script>
+const answer = "Keven Pietersen";
+
+const clubs = [
+  "England",
+  "Delhi Daredevils",
+  "KwaZulu-Natal",
+  "Deccan Chargers",
+  "Royal Challengerss Bangalore"
+];
+
+let round = 0;
+
+function updateRound() {
+  document.getElementById("round-title").innerText =
+    `Round ${round + 1}`;
+  document.getElementById("club-reveal").innerText =
+    `Club: ${clubs[round]}`;
+}
+
+function submitGuess() {
+  const guess = document
+    .getElementById("guess")
+    .value
+    .trim()
+    .toLowerCase();
+
+  if (!guess) return;
+
+  if (guess === answer) {
+    document.getElementById("message").innerText =
+      "🎉 Correct! You guessed the cricketer!";
+    disableGame();
+    return;
+  }
+
+  round++;
+
+  if (round >= clubs.length) {
+    document.getElementById("message").innerText =
+      `❌ Game over! The answer was ${answer.toUpperCase()}`;
+    disableGame();
+  } else {
+    document.getElementById("message").innerText =
+      "❌ Incorrect. Next clue revealed!";
+    updateRound();
+  }
+
+  document.getElementById("guess").value = "";
+}
+
+function disableGame() {
+  document.getElementById("guess").disabled = true;
+}
+
+updateRound();
+</script>
